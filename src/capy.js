@@ -1,8 +1,8 @@
 // A hash of constants that can be changed based on capy sprite hitbox
 // and other properties
 const CONSTANTS = {
-    CAPY_WIDTH: 40,  // Width of capy hitbox
-    CAPY_HEIGHT: 30, // Height of capy hitbox
+    CAPY_WIDTH: 50,  // Width of capy hitbox
+    CAPY_HEIGHT: 38, // Height of capy hitbox
     GRAVITY: 0.4,    // 'Acceleration' value representing gravity
     FLAP_SPEED: 8,   // 'Acceleration' value of a #flap
     TERMINAL_VEL: 12 // Maximum velocity the capy can reach
@@ -35,8 +35,13 @@ export default class Capy {
     image.
     */
     drawCapy(ctx) {
-        ctx.fillStyle = "yellow";
-        ctx.fillRect(this.x, this.y, CONSTANTS.CAPY_WIDTH, CONSTANTS.CAPY_HEIGHT);
+        // ctx.fillStyle = "yellow";
+        // ctx.fillRect(this.x, this.y, CONSTANTS.CAPY_WIDTH, CONSTANTS.CAPY_HEIGHT);
+        let capySprite = new Image();
+        capySprite.src = 'assets/images/capy-sprite-small.png';
+        // capySprite.onload = () => {
+        ctx.drawImage(capySprite, this.x, this.y);
+        // };
     }
 
     /*

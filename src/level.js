@@ -5,7 +5,8 @@ const CONSTANTS = {
     WARMUP_SECONDS: 1,            // Time between first click and first pipe appearing
     EDGE_BUFFER: 50,              // Distance between the level bounds and gap extremes
     PIPE_WIDTH: 50,               // Width of the pipe hitbox
-    PIPE_SPEED: 2                 // Frequency of pipe spawn
+    PIPE_SPEED: 2,                // Frequency of pipe spawn
+    PIPE_IMAGE_HEIGHT: 640
 };
 
 export default class Level {
@@ -50,20 +51,28 @@ export default class Level {
     */
     drawPipes(ctx) {
         this.eachPipe(function(pipe) {
-            ctx.fillStyle = "green";
+            // ctx.fillStyle = "green";
             
-            ctx.fillRect(
-                pipe.topPipe.left,
-                pipe.topPipe.top,
-                CONSTANTS.PIPE_WIDTH,
-                pipe.topPipe.bottom - pipe.topPipe.top
-            );
-            ctx.fillRect(
-                pipe.bottomPipe.left,
-                pipe.bottomPipe.top,
-                CONSTANTS.PIPE_WIDTH,
-                pipe.bottomPipe.bottom - pipe.bottomPipe.top
-            );
+            // ctx.fillRect(
+            //     pipe.topPipe.left,
+            //     pipe.topPipe.top,
+            //     CONSTANTS.PIPE_WIDTH,
+            //     pipe.topPipe.bottom - pipe.topPipe.top
+            // );
+            // ctx.fillRect(
+            //     pipe.bottomPipe.left,
+            //     pipe.bottomPipe.top,
+            //     CONSTANTS.PIPE_WIDTH,
+            //     pipe.bottomPipe.bottom - pipe.bottomPipe.top
+            // );
+
+            let topPipeRender = new Image();    
+            topPipeRender.src = 'assets/images/top-pipe.png';
+            ctx.drawImage(topPipeRender, pipe.topPipe.left, pipe.topPipe.bottom - pipe.topPipe.top - CONSTANTS.PIPE_IMAGE_HEIGHT);
+
+            let bottomPipeRender = new Image();
+            bottomPipeRender.src = 'assets/images/bottom-pipe.png';
+            ctx.drawImage(bottomPipeRender, pipe.bottomPipe.left, CONSTANTS.PIPE_IMAGE_HEIGHT - (pipe.bottomPipe.bottom - pipe.bottomPipe.top));
         });
     }
 
