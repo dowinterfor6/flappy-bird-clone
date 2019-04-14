@@ -2,9 +2,14 @@ body {
     display: flex;
     background-color: grey;
     flex-direction: column;
-    font-family: 'Trebuchet MS', Helvetica, sans-serif;
-    font-weight: bold;
+    font-family: 'Lato', sans-serif;
     font-size: 20px;
+    font-weight: lighter;
+}
+
+a {
+    color: black;
+    text-decoration: none;
 }
 
 .nav-bar {
@@ -14,6 +19,7 @@ body {
     padding: 10px 20px;
     border-bottom: 1px solid black;
     background-color: white;
+    font-size: 1em;
 }
 
 .nav-bar-left {
@@ -22,14 +28,43 @@ body {
     align-items: center;
 }
 
+.nav-bar-left:hover {
+    cursor: default;
+}
+
+.nav-bar-left h1 {
+    font-size: 2em;
+    margin-right: 20px;
+}
+
+.nav-bar-left h2 {
+    font-variant: all-small-caps;
+}
+
 .nav-bar-right {
     display: flex;
     justify-content: flex-end;
     align-items: center;
 }
 
-.nav-bar > h1 {
-    font-size: 50px;
+.nav-bar-right ul {
+    display: flex;
+    justify-content: end;
+}
+
+.nav-bar-right li {
+    display: inline;
+    padding: 0px 10px;
+    border-left: 1px solid black;
+}
+
+.nav-bar-right li:first-of-type {
+    border: none;
+}
+
+.nav-bar-right a:hover {
+    color: grey;
+    transition: color 0.5s;
 }
 
 #bird-game {
