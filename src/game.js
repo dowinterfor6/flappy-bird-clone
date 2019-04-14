@@ -47,11 +47,25 @@ export default class FlappyCapy {
         binding this Game instance. #requestAnimationFrame will only
         call #callback according to standard refresh rate, e.g. 60fps
         */
-        if (this.running) {
-            requestAnimationFrame(this.animate.bind(this));
+       if (this.running) {
+           requestAnimationFrame(this.animate.bind(this));
         }
     }
-
+    
+    /*
+    Displays the current score of the Game by drawing on the current context
+    and filling in the strings with interpolated values. 
+    */
+    drawScore() {
+        const loc = { x: this.dimensions.width / 4, y: this.dimensions.height / 5 };
+        this.ctx.font = "bold 50pt serif";
+        this.ctx.fillStyle = "white";
+        this.ctx.fillText(`Score: ${this.score}`, loc.x, loc.y);
+        this.ctx.strokeStyle = "black";
+        this.ctx.lineWidth = 2;
+        this.ctx.strokeText(`Score: ${this.score}`, loc.x, loc.y);
+    }
+    
     // Starts off the game state and runs the initial #animate call
     play() {
         this.running = true;
@@ -115,17 +129,4 @@ export default class FlappyCapy {
         return (this.level.collidesWith(this.capy.bounds()) || this.capy.outOfBounds());
     }
 
-    /*
-    Displays the current score of the Game by drawing on the current context
-    and filling in the strings with interpolated values. 
-    */
-    drawScore() {
-        const loc = { x: this.dimensions.width / 4, y: this.dimensions.height / 5 };
-        this.ctx.font = "bold 50pt serif";
-        this.ctx.fillStyle = "white";
-        this.ctx.fillText(`Score: ${this.score}`, loc.x, loc.y);
-        this.ctx.strokeStyle = "black";
-        this.ctx.lineWidth = 2;
-        this.ctx.strokeText(`Score: ${this.score}`, loc.x, loc.y);
-    }
 }
