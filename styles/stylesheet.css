@@ -22,22 +22,22 @@ a {
     font-size: 1em;
 }
 
-.nav-bar-left {
+.nav-description {
     display: flex;
     justify-content: flex-start;
     align-items: center;
 }
 
-.nav-bar-left:hover {
+.nav-description:hover {
     cursor: default;
 }
 
-.nav-bar-left h1 {
+.nav-description h1 {
     font-size: 2em;
     margin-right: 20px;
 }
 
-.nav-bar-left h2 {
+.nav-description h2 {
     font-variant: all-small-caps;
 }
 
