@@ -1,74 +1,125 @@
-import Bird from "./bird";
+// Import capy and level
+import Capy from "./capy";
 import Level from "./level";
 
-export default class FlappyBird {
+export default class FlappyCapy {
+    /* 
+    Constructor function that will start a 2d drawing context,
+    instantiate dimensions of the canvas context,
+    start an event listener for mouse clicks (implement space bar later),
+    and start the game loop.
+    */
     constructor(canvas) {
-        this.ctx = canvas.getContext("2d"); //instance of drawing context
+        this.ctx = canvas.getContext("2d");
         this.dimensions = { width: canvas.width, height: canvas.height };
         this.registerEvents();
         this.restart();
     }
     
-    play() {
-        this.running = true;
-        this.animate();
-    }
-    
+    /*
+    Animation of the Game instance that calls the animation of
+    the Capy and Level instances, within this context.
+    */
     animate() {
-        // calls level#animate(ctx)
         this.level.animate(this.ctx);
-        this.bird.animate(this.ctx);
-        //honestly this is super ugly, change this later
+        this.capy.animate(this.ctx);
+
+        /* 
+        After animating all the instances, #gameOver will be called
+        which will return the user to the starting frame of the game
+        via #restart if needed.
+        */
         if (this.gameOver()) {
             alert(this.score);
             this.restart();
         }
         
-        this.level.passedPipe(this.bird.bounds(), () => {
+        // Simple method to increment score whenever a pipe is passed
+        this.level.passedPipe(this.capy.bounds(), () => {
             this.score ++;
-            // console.log(this.score); //what is this doing?
         });
         
+        // Display score
         this.drawScore();
         
+        /*
+        Unless the game is over, run #animate via callback while
+        binding this Game instance. #requestAnimationFrame will only
+        call #callback according to standard refresh rate, e.g. 60fps
+        */
         if (this.running) {
-            requestAnimationFrame(this.animate.bind(this)); //bind 'this' game instance instead of?
+            requestAnimationFrame(this.animate.bind(this));
         }
     }
-    
+
+    // Starts off the game state and runs the initial #animate call
+    play() {
+        this.running = true;
+        this.animate();
+    }
+
+    /*
+    Whenever the game is over, this method will be invoked to reset
+    game state and create new Level and Capy instances, as well as
+    resetting the score and calling #animate
+    */
     restart() {
         this.running = false;
         this.level = new Level(this.dimensions);
-        this.bird = new Bird(this.dimensions);
+        this.capy = new Capy(this.dimensions);
         this.score = 0;
-        //should probably add a "start" button here
-        //also display score instead of alert
         this.animate();
     }
     
+    /*
+    Event handler method that will determine what the keypress will
+    do. #click can take a variable, but is not used in this case.
+    If the game is not running, e.g. first keypress after #gameOver or 
+    page load has not been made, it will #play the game.
+    The capy will #flap per keypress.
+    NOTE: This method isn't actually necessary right now, it can be 
+    incorporated within the callback in #registerEvents
+    */
+    /*
     click(e) {
         if (!this.running) {
             this.play();
         }
-        this.bird.flap();
+        this.capy.flap();
     }
+    */
 
+    /*
+    Add event listener to the page, attached to the canvas in this Game instance,
+    listening to a "mousedown" action and having a callback of what #click would do.
+
+    NOTE: #click could be called as an instance variable invoked method, 
+    binding this Game instance to it, and passed into the callback instead, e.g.
+    this.boundClickHandler = this.click.bind(this);
+    this.ctx.canvas.addEventListener("mousedown", this.boundClickHandler);
+    */
     registerEvents() {
-        //honestly idk
-        this.boundClickHandler = this.click.bind(this);
-        this.ctx.canvas.addEventListener("mousedown", this.boundClickHandler);
-        // change to any keypress?
-        // this.ctx.canvas.addEventListener("keypress", this.boundClickHandler);
+        this.ctx.canvas.addEventListener("mousedown", () => {
+            if (!this.running) {
+                this.play();
+            }
+            this.capy.flap();
+        });
     }
 
+    /*
+    Returns whether or not the capy has hit one of the pipes or
+    the upper/lower boundaries of the Level
+    */
     gameOver() {
-        return (this.level.collidesWith(this.bird.bounds()) || this.bird.outOfBounds());
+        return (this.level.collidesWith(this.capy.bounds()) || this.capy.outOfBounds());
     }
 
-    //i just copied this tbh
+    /*
+    Displays the current score of the Game by drawing on the current context
+    and filling in the strings with interpolated values. 
+    */
     drawScore() {
-        //loc will be the location 
-        // this is not in the middle and i dont like it
         const loc = { x: this.dimensions.width / 4, y: this.dimensions.height / 5 };
         this.ctx.font = "bold 50pt serif";
         this.ctx.fillStyle = "white";

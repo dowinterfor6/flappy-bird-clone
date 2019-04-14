@@ -20,6 +20,7 @@ a {
     border-bottom: 1px solid black;
     background-color: white;
     font-size: 1em;
+    -webkit-user-select: none;
 }
 
 .nav-description {
@@ -67,7 +68,7 @@ a {
     transition: color 0.5s;
 }
 
-#bird-game {
+#capy-game {
     display: block;
     margin-left: auto;
     margin-right: auto;

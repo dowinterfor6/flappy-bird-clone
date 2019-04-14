@@ -4,11 +4,11 @@ const CONSTANTS = {
     WARMUP_SECONDS: 1,
     EDGE_BUFFER: 50,
     PIPE_WIDTH: 50,
-    PIPE_SPEED: 2 //change this speed later
+    PIPE_SPEED: 2
 };
 
 export default class Level {
-    constructor(dimensions) { //need to pass in from game variables
+    constructor(dimensions) {
         this.dimensions = dimensions;
 
         const firstPipeDistance = this.dimensions.width + (CONSTANTS.WARMUP_SECONDS * 60 * CONSTANTS.PIPE_SPEED);
@@ -43,7 +43,7 @@ export default class Level {
 
     movePipes() {
         this.eachPipe(function(pipe) {
-            pipe.topPipe.left -= CONSTANTS.PIPE_SPEED; //MAKE SURE 'THIS' IS RIGHT
+            pipe.topPipe.left -= CONSTANTS.PIPE_SPEED;
             pipe.topPipe.right -= CONSTANTS.PIPE_SPEED;
             pipe.bottomPipe.left -= CONSTANTS.PIPE_SPEED;
             pipe.bottomPipe.right -= CONSTANTS.PIPE_SPEED;
@@ -79,39 +79,39 @@ export default class Level {
         this.pipes.forEach(callback.bind(this));
     }
 
-    drawBackground(ctx) { //animate() will call this
+    drawBackground(ctx) {
         ctx.fillStyle = "skyblue";
-        ctx.fillRect(0, 0, this.dimensions.width, this.dimensions.height); //make sure to check what 'this' is
+        ctx.fillRect(0, 0, this.dimensions.width, this.dimensions.height); 
     }
 
-    animate(ctx) { //or called #frame or #move
+    animate(ctx) {
         this.drawBackground(ctx);
         this.movePipes();
         this.drawPipes(ctx);
     }
 
-    collidesWith(birdBound) {
-        const _overlap = (pipe, bird) => {
-            if (pipe.left > bird.right || pipe.right < bird.left) {
+    collidesWith(capyBound) {
+        const _overlap = (pipe, capy) => {
+            if (pipe.left > capy.right || pipe.right < capy.left) {
                 return false;
             }
-            if (pipe.top > bird.bottom || pipe.bottom < bird.top) {
+            if (pipe.top > capy.bottom || pipe.bottom < capy.top) {
                 return false;
             }
             return true;
         };
         let collision = false;
         this.eachPipe((pipe) => {
-            if (_overlap(pipe.topPipe, birdBound) || _overlap(pipe.bottomPipe, birdBound)) {
+            if (_overlap(pipe.topPipe, capyBound) || _overlap(pipe.bottomPipe, capyBound)) {
                 collision = true;
             }
         });
         return collision;
     }
 
-    passedPipe(bird, callback) {
+    passedPipe(capy, callback) {
         this.eachPipe((pipe) => {
-            if (pipe.topPipe.right < bird.left) {
+            if (pipe.topPipe.right < capy.left) {
                 if (!pipe.passed) {
                     pipe.passed = true;
                     callback();
