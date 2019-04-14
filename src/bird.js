@@ -24,18 +24,13 @@ export default class Bird {
 
         // in case bird travels too fast
         if (Math.abs(this.vel) > CONSTANTS.TERMINAL_VEL) {
-            // switch(this.vel > 0) {
-            //     case true:
-            //         this.vel = CONSTANTS.TERMINAL_VEL;
-            //         break;
-            //     case false:
-            //         this.vel = CONSTANTS.TERMINAL_VEL * -1;
-            //         break;
-            // }
-            if (this.vel > 0) {
-                this.vel = CONSTANTS.TERMINAL_VEL;
-            } else {
-                this.vel = CONSTANTS.TERMINAL_VEL * -1;
+            switch(this.vel > 0) {
+                case true:
+                    this.vel = CONSTANTS.TERMINAL_VEL;
+                    break;
+                case false:
+                    this.vel = CONSTANTS.TERMINAL_VEL * -1;
+                    break;
             }
         }
     }
@@ -48,5 +43,20 @@ export default class Bird {
     drawBird(ctx) {
         ctx.fillStyle = "yellow";
         ctx.fillRect(this.x, this.y, CONSTANTS.BIRD_WIDTH, CONSTANTS.BIRD_HEIGHT);
+    }
+
+    bounds() {
+        return { 
+            left: this.x,
+            right: this.x + CONSTANTS.BIRD_WIDTH,
+            top: this.y,
+            bottom: this.y + CONSTANTS.BIRD_HEIGHT
+        };
+    }
+
+    outOfBounds() {
+        const aboveTop = this.y < 0;
+        const belowBottom = this.y + CONSTANTS.BIRD_HEIGHT > this.dimensions.height;
+        return aboveTop || belowBottom;
     }
 }

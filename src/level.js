@@ -5,7 +5,7 @@ const CONSTANTS = {
     EDGE_BUFFER: 50,
     PIPE_WIDTH: 50,
     PIPE_SPEED: 2 //change this speed later
-}
+};
 
 export default class Level {
     constructor(dimensions) { //need to pass in from game variables
@@ -49,18 +49,10 @@ export default class Level {
             pipe.bottomPipe.right -= CONSTANTS.PIPE_SPEED;
         });
 
-        // const firstPipe = this.pipes[0].topPipe;
-        // const lastPipe = this.pipes[this.pipes.length - 1].topPipe;
-
-        // if (firstPipe.right <= 0) {
-        //     this.pipes.shift();
-        //     this.pipes.push(this.randomPipe(lastPipe.left + CONSTANTS.HORIZONTAL_PIPE_SPACING));
-        // }
-
         if (this.pipes[0].topPipe.right <= 0) {
             this.pipes.shift();
-            const newX = this.pipes[1].topPipe.left + CONSTANTS.HORIZONTAL_PIPE_SPACING;
-            this.pipes.push(this.randomPipe(newX));
+            const newXOffset = this.pipes[1].topPipe.left + CONSTANTS.HORIZONTAL_PIPE_SPACING;
+            this.pipes.push(this.randomPipe(newXOffset));
         }
     }
 
@@ -96,5 +88,35 @@ export default class Level {
         this.drawBackground(ctx);
         this.movePipes();
         this.drawPipes(ctx);
+    }
+
+    collidesWith(birdBound) {
+        const _overlap = (pipe, bird) => {
+            if (pipe.left > bird.right || pipe.right < bird.left) {
+                return false;
+            }
+            if (pipe.top > bird.bottom || pipe.bottom < bird.top) {
+                return false;
+            }
+            return true;
+        };
+        let collision = false;
+        this.eachPipe((pipe) => {
+            if (_overlap(pipe.topPipe, birdBound) || _overlap(pipe.bottomPipe, birdBound)) {
+                collision = true;
+            }
+        });
+        return collision;
+    }
+
+    passedPipe(bird, callback) {
+        this.eachPipe((pipe) => {
+            if (pipe.topPipe.right < bird.left) {
+                if (!pipe.passed) {
+                    pipe.passed = true;
+                    callback();
+                }
+            }
+        });
     }
 }
