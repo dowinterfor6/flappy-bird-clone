@@ -27,6 +27,12 @@ export default class Level {
             this.randomPipe(firstPipeDistance + CONSTANTS.HORIZONTAL_PIPE_SPACING),
             this.randomPipe(firstPipeDistance + (2 * CONSTANTS.HORIZONTAL_PIPE_SPACING))
         ];
+
+        // Need to figure out how to loop
+        this.backgroundSky = new Image();
+        this.backgroundSky.src = 'assets/images/background-sky.png';
+        this.backgroundGrass = new Image();
+        this.backgroundGrass.src = 'assets/images/background-grass.png';
     }
 
     /*
@@ -40,6 +46,8 @@ export default class Level {
     */
     animate(ctx) {
         this.drawBackground(ctx);
+        // this.moveAnimatedBackground();
+        this.drawAnimatedBackground(ctx);
         this.movePipes();
         this.drawPipes(ctx);
     }
@@ -102,6 +110,11 @@ export default class Level {
     drawBackground(ctx) {
         ctx.fillStyle = "skyblue";
         ctx.fillRect(0, 0, this.dimensions.width, this.dimensions.height); 
+    }
+
+    drawAnimatedBackground(ctx) {
+        ctx.drawImage(this.backgroundSky, 0, 0);
+        ctx.drawImage(this.backgroundGrass, 0, this.dimensions.height - 130);
     }
 
     /*

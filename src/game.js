@@ -82,9 +82,11 @@ export default class FlappyCapy {
         this.level = new Level(this.dimensions);
         this.capy = new Capy(this.dimensions);
         // Ensure capysprite is loaded when window first loads
-        var currentCapy = this.capy;
+        // Ensure level animated background elements are loaded when window first loads
+        // let initialLevel = this.level;
         window.onload = () => {
-            this.ctx.drawImage(currentCapy.capySprite, currentCapy.x, currentCapy.y);
+            this.capy.drawCapy(this.ctx);
+            this.level.drawAnimatedBackground(this.ctx);
         };
         this.score = 0;
         this.animate();
