@@ -57,7 +57,8 @@ export default class FlappyCapy {
     and filling in the strings with interpolated values. 
     */
     drawScore() {
-        const loc = { x: this.dimensions.width / 4, y: this.dimensions.height / 5 };
+        // const loc = { x: this.dimensions.width / 4, y: this.dimensions.height / 5 };
+        const loc = { x: 10, y: 60 };
         this.ctx.font = "bold 50pt serif";
         this.ctx.fillStyle = "white";
         this.ctx.fillText(`Score: ${this.score}`, loc.x, loc.y);

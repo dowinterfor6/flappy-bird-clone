@@ -1,12 +1,13 @@
 // A hash of level constants that can be changed to adjust game difficulty
 const CONSTANTS = {
     HORIZONTAL_PIPE_SPACING: 220, // Space between pipes on x axis
-    PIPE_GAP: 150,                // Space between top and bottom pipes
+    PIPE_GAP: 500,                // Space between top and bottom pipes, was 150
     WARMUP_SECONDS: 1,            // Time between first click and first pipe appearing
     EDGE_BUFFER: 50,              // Distance between the level bounds and gap extremes
     PIPE_WIDTH: 50,               // Width of the pipe hitbox
     PIPE_SPEED: 2,                // Frequency of pipe spawn
-    PIPE_IMAGE_HEIGHT: 640        // Vertical dimension of image source
+    PIPE_IMAGE_HEIGHT: 640,        // Vertical dimension of image source
+    BACKGROUND_SPEED: 1
 };
 
 export default class Level {
@@ -28,11 +29,12 @@ export default class Level {
             this.randomPipe(firstPipeDistance + (2 * CONSTANTS.HORIZONTAL_PIPE_SPACING))
         ];
 
-        // Need to figure out how to loop
+        // Need to figure out how to loop, currently iterates through entire thing once
         this.backgroundSky = new Image();
         this.backgroundSky.src = 'assets/images/background-sky.png';
         this.backgroundGrass = new Image();
         this.backgroundGrass.src = 'assets/images/background-grass.png';
+        this.backgroundOffset = 0;
     }
 
     /*
@@ -46,7 +48,7 @@ export default class Level {
     */
     animate(ctx) {
         this.drawBackground(ctx);
-        // this.moveAnimatedBackground();
+        this.moveAnimatedBackground();
         this.drawAnimatedBackground(ctx);
         this.movePipes();
         this.drawPipes(ctx);
@@ -60,7 +62,7 @@ export default class Level {
     drawPipes(ctx) {
         this.eachPipe(function(pipe) {
             let pipeOffsetTop = pipe.topPipe.bottom - pipe.topPipe.top;
-            let pipeOffsetBottom = pipe.bottomPipe.bottom - pipe.bottomPipe.top
+            let pipeOffsetBottom = pipe.bottomPipe.bottom - pipe.bottomPipe.top;
 
             let topPipeRender = new Image();    
             topPipeRender.src = 'assets/images/top-pipe.png';
@@ -103,6 +105,10 @@ export default class Level {
         }
     }
 
+    moveAnimatedBackground() {
+        this.backgroundOffset -= CONSTANTS.BACKGROUND_SPEED;
+    }
+
     /*
     A simple background is drawn onto the context with a color, and 
     fills up the entire page.
@@ -113,8 +119,8 @@ export default class Level {
     }
 
     drawAnimatedBackground(ctx) {
-        ctx.drawImage(this.backgroundSky, 0, 0);
-        ctx.drawImage(this.backgroundGrass, 0, this.dimensions.height - 130);
+        ctx.drawImage(this.backgroundSky, this.backgroundOffset, 0);
+        ctx.drawImage(this.backgroundGrass, this.backgroundOffset, this.dimensions.height - 130);
     }
 
     /*

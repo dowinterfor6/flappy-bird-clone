@@ -1,6 +1,6 @@
 body {
     display: flex;
-    background-color: grey;
+    background-color: lightgrey;
     flex-direction: column;
     font-family: 'Lato', sans-serif;
     font-size: 20px;
