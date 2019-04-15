@@ -22,7 +22,8 @@ export default class Capy {
 
        // Memo-ize capy image so it doesn't need to load everytime #drawCapy is called
        this.capySprite = new Image();
-       this.capySprite.src = 'assets/images/capy-sprite-small.png';
+    //    this.capySprite.src = 'assets/images/capy-sprite-small.png';
+       this.capySprite.src = 'assets/images/capy-sprite-gif.gif';
     }
     
     /*
