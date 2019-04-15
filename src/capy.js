@@ -14,11 +14,15 @@ export default class Capy {
     as well as the position of the capy relative to the canvas. The velocity
     is initialized to be 0 to indicate the stopped value.
     */
-    constructor(dimensions) {
-        this.dimensions = dimensions;
-        this.x = dimensions.width / 3;
-        this.y = dimensions.height / 2;
-        this.vel = 0;
+   constructor(dimensions) {
+       this.dimensions = dimensions;
+       this.x = dimensions.width / 3;
+       this.y = dimensions.height / 2;
+       this.vel = 0;
+
+       // Memo-ize capy image so it doesn't need to load everytime #drawCapy is called
+       this.capySprite = new Image();
+       this.capySprite.src = 'assets/images/capy-sprite-small.png';
     }
     
     /*
@@ -31,17 +35,12 @@ export default class Capy {
     }
 
     /*
-    Capy is represented as a yellow rectangle currently, but can by passed in as an
-    image.
+    Capy is represented as a capysprite, but the hitbox is inaccurate
     */
     drawCapy(ctx) {
         // ctx.fillStyle = "yellow";
         // ctx.fillRect(this.x, this.y, CONSTANTS.CAPY_WIDTH, CONSTANTS.CAPY_HEIGHT);
-        let capySprite = new Image();
-        capySprite.src = 'assets/images/capy-sprite-small.png';
-        // capySprite.onload = () => {
-        ctx.drawImage(capySprite, this.x, this.y);
-        // };
+        ctx.drawImage(this.capySprite, this.x, this.y);
     }
 
     /*
@@ -81,7 +80,8 @@ export default class Capy {
     Method that returns a POJO containing the capy hitbox, for use when determining
     if the capy has hit out of bounds, or one of the pipes. 
     When using a custom sprite, the hitboxes may be a little off, and different extremes
-    may potentially be a better choice
+    may potentially be a better choice.
+    An elliptical/circle function may be used to determine appropriate bounds
     */
     bounds() {
         return { 

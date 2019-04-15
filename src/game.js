@@ -65,7 +65,7 @@ export default class FlappyCapy {
         this.ctx.lineWidth = 2;
         this.ctx.strokeText(`Score: ${this.score}`, loc.x, loc.y);
     }
-    
+
     // Starts off the game state and runs the initial #animate call
     play() {
         this.running = true;
@@ -81,6 +81,11 @@ export default class FlappyCapy {
         this.running = false;
         this.level = new Level(this.dimensions);
         this.capy = new Capy(this.dimensions);
+        // Ensure capysprite is loaded when window first loads
+        var currentCapy = this.capy;
+        window.onload = () => {
+            this.ctx.drawImage(currentCapy.capySprite, currentCapy.x, currentCapy.y);
+        };
         this.score = 0;
         this.animate();
     }
