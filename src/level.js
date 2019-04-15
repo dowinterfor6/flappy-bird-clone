@@ -29,12 +29,22 @@ export default class Level {
             this.randomPipe(firstPipeDistance + (2 * CONSTANTS.HORIZONTAL_PIPE_SPACING))
         ];
 
-        // Need to figure out how to loop, currently iterates through entire thing once
-        this.backgroundSky = new Image();
-        this.backgroundSky.src = 'assets/images/background-sky.png';
-        this.backgroundGrass = new Image();
-        this.backgroundGrass.src = 'assets/images/background-grass.png';
-        this.backgroundOffset = 0;
+        let backgroundFirst = this.makeBackground();
+        this.backgroundQueue = [backgroundFirst];
+        this.appendBackground = true;
+    }
+
+    makeBackground() {
+        const background = {
+            image: new Image(),
+            pos: (480-1920)
+        };
+        if (this.appendBackground) {
+            background.pos = 480;
+            this.appendBackground = false;
+        }
+        background.image.src = 'assets/images/background-sky-and-grass.png';
+        return background;
     }
 
     /*
@@ -44,14 +54,17 @@ export default class Level {
     pipes to more accurately reflect the current location, e.g. if #movePipes
     is called after #drawPipes, the visible pipes will actually represent the
     previous position of the pipes in the last event loop cycle (1 frame ago).
-    Background clouds will be added at a later time.
     */
     animate(ctx) {
-        this.drawBackground(ctx);
-        this.moveAnimatedBackground();
-        this.drawAnimatedBackground(ctx);
+        // this.drawBackground(ctx);
+        // this.animateBackground(ctx);
         this.movePipes();
         this.drawPipes(ctx);
+    }
+
+    animateBackground(ctx) {
+        this.moveAnimatedBackground();
+        this.drawAnimatedBackground(ctx);
     }
 
     /*
@@ -106,7 +119,20 @@ export default class Level {
     }
 
     moveAnimatedBackground() {
-        this.backgroundOffset -= CONSTANTS.BACKGROUND_SPEED;
+        switch (this.backgroundQueue[0].pos) {
+            // When first image right edge is at canvas right edge
+            case (480-1920):
+                this.backgroundQueue.push(this.makeBackground());
+                this.appendBackground = true;
+                break;
+            // When first image right edge is at canvas left edge
+            case (-1920):
+                this.backgroundQueue.shift();
+                break;
+        }
+        this.backgroundQueue.forEach((background) => {
+            background.pos -= CONSTANTS.BACKGROUND_SPEED;
+        });
     }
 
     /*
@@ -119,8 +145,9 @@ export default class Level {
     }
 
     drawAnimatedBackground(ctx) {
-        ctx.drawImage(this.backgroundSky, this.backgroundOffset, 0);
-        ctx.drawImage(this.backgroundGrass, this.backgroundOffset, this.dimensions.height - 130);
+        this.backgroundQueue.forEach((background) => {
+            ctx.drawImage(background.image, background.pos, 0);
+        });
     }
 
     /*

@@ -52,6 +52,13 @@ export default class FlappyCapy {
         }
     }
     
+    animateLevelBackground() {
+        this.level.drawBackground(this.ctx);
+        this.level.animateBackground(this.ctx);
+        this.capy.drawCapy(this.ctx);
+
+        requestAnimationFrame(this.animateLevelBackground.bind(this));
+    }
     /*
     Displays the current score of the Game by drawing on the current context
     and filling in the strings with interpolated values. 
@@ -84,11 +91,7 @@ export default class FlappyCapy {
         this.capy = new Capy(this.dimensions);
         // Ensure capysprite is loaded when window first loads
         // Ensure level animated background elements are loaded when window first loads
-        // let initialLevel = this.level;
-        window.onload = () => {
-            this.capy.drawCapy(this.ctx);
-            this.level.drawAnimatedBackground(this.ctx);
-        };
+        this.animateLevelBackground();
         this.score = 0;
         this.animate();
     }
