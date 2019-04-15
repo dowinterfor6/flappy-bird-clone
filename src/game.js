@@ -9,11 +9,12 @@ export default class FlappyCapy {
     start an event listener for mouse clicks (implement space bar later),
     and start the game loop.
     */
-    constructor(canvas) {
-        this.ctx = canvas.getContext("2d");
-        this.dimensions = { width: canvas.width, height: canvas.height };
-        this.registerEvents();
-        this.restart();
+   constructor(canvas) {
+       this.ctx = canvas.getContext("2d");
+       this.dimensions = { width: canvas.width, height: canvas.height };
+       this.registerEvents();
+       this.restart();
+       this.backgroundRunning = false;
     }
     
     /*
@@ -30,7 +31,8 @@ export default class FlappyCapy {
         via #restart if needed.
         */
         if (this.gameOver()) {
-            alert(this.score);
+            alert(`What a scrub, you only got ${this.score} points`);
+            // this.gameOverScreen(); // need to implement 'pause' on game over
             this.restart();
         }
         
@@ -55,7 +57,9 @@ export default class FlappyCapy {
     animateLevelBackground() {
         this.level.drawBackground(this.ctx);
         this.level.animateBackground(this.ctx);
-        this.capy.drawCapy(this.ctx);
+        if (!this.running) {
+            this.capy.drawCapy(this.ctx);
+        }
 
         requestAnimationFrame(this.animateLevelBackground.bind(this));
     }
@@ -91,7 +95,11 @@ export default class FlappyCapy {
         this.capy = new Capy(this.dimensions);
         // Ensure capysprite is loaded when window first loads
         // Ensure level animated background elements are loaded when window first loads
-        this.animateLevelBackground();
+        // Only need to run once
+        if (!this.backgroundRunning) {
+            this.animateLevelBackground();
+            this.backgroundRunning = true;
+        }
         this.score = 0;
         this.animate();
     }
@@ -140,4 +148,17 @@ export default class FlappyCapy {
         return (this.level.collidesWith(this.capy.bounds()) || this.capy.outOfBounds());
     }
 
+    gameOverScreen() {
+        this.screenText();
+    }
+
+    screenText() {
+        let loc = { x: this.dimensions.width / 2, y: this.dimensions.height / 2 }
+        this.ctx.font = "50pt serif";
+        this.ctx.fillStyle = "white";
+        this.ctx.fillText(`Click to start playing Flappy Capybara!`, loc.x, loc.y);
+        // this.ctx.strokeStyle = "black";
+        // this.ctx.lineWidth = 2;
+        // this.ctx.strokeText(`Score: ${this.score}`, loc.x, loc.y);
+    }
 }
