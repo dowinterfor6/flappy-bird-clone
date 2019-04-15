@@ -1,7 +1,7 @@
 // A hash of level constants that can be changed to adjust game difficulty
 const CONSTANTS = {
     HORIZONTAL_PIPE_SPACING: 220, // Space between pipes on x axis
-    PIPE_GAP: 500,                // Space between top and bottom pipes, was 150
+    PIPE_GAP: 150,                // Space between top and bottom pipes, was 150
     WARMUP_SECONDS: 1,            // Time between first click and first pipe appearing
     EDGE_BUFFER: 50,              // Distance between the level bounds and gap extremes
     PIPE_WIDTH: 50,               // Width of the pipe hitbox
