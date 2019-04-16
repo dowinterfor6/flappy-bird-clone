@@ -2,7 +2,7 @@
   "name": "flappy_bird_clone",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "/dist/main.js",
   "dependencies": {},
   "devDependencies": {
     "webpack": "^4.30.0",
