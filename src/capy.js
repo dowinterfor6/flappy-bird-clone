@@ -1,11 +1,12 @@
 // A hash of constants that can be changed based on capy sprite hitbox
 // and other properties
 const CONSTANTS = {
-    CAPY_WIDTH: 50,  // Width of capy hitbox
-    CAPY_HEIGHT: 38, // Height of capy hitbox
+    CAPY_WIDTH: 45,  // Width of capy hitbox DEFAULT 50
+    CAPY_HEIGHT: 33, // Height of capy hitbox DEFAULT 38
     GRAVITY: 0.4,    // 'Acceleration' value representing gravity
     FLAP_SPEED: 8,   // 'Acceleration' value of a #flap
-    TERMINAL_VEL: 12 // Maximum velocity the capy can reach
+    TERMINAL_VEL: 12, // Maximum velocity the capy can reach
+    ANIMATED_FLAP_SPEED: 5
 };
 
 export default class Capy {
@@ -19,11 +20,19 @@ export default class Capy {
        this.x = dimensions.width / 3;
        this.y = dimensions.height / 2;
        this.vel = 0;
+       this.capyCounter = 0;
 
        // Memo-ize capy image so it doesn't need to load everytime #drawCapy is called
-       this.capySprite = new Image();
-    //    this.capySprite.src = 'assets/images/capy-sprite-small.png';
-       this.capySprite.src = 'assets/images/capy-sprite-gif.gif';
+    //    this.capySprite = new Image();
+        //this.capySprite.src = 'assets/images/capy-sprite-small.png';
+        //this.capySprite.src = 'assets/images/capy-sprite-gif.gif';
+    //    this.capySprite.src = 'assets/images/capy-sprite-sheet.png';
+       this.capySprite1 = new Image();
+       this.capySprite2 = new Image();
+       this.capySprite3 = new Image();
+       this.capySprite1.src = 'assets/images/capy-wings1.png';
+       this.capySprite2.src = 'assets/images/capy-wings2.png';
+       this.capySprite3.src = 'assets/images/capy-wings3.png';
     }
     
     /*
@@ -41,7 +50,20 @@ export default class Capy {
     drawCapy(ctx) {
         // ctx.fillStyle = "yellow";
         // ctx.fillRect(this.x, this.y, CONSTANTS.CAPY_WIDTH, CONSTANTS.CAPY_HEIGHT);
-        ctx.drawImage(this.capySprite, this.x, this.y);
+
+        // ctx.drawImage(this.capySprite, this.x, this.y);
+        let sprite;
+        if (this.capyCounter <= (CONSTANTS.ANIMATED_FLAP_SPEED * 1)) {
+            sprite = this.capySprite1;
+        } else if (this.capyCounter <= (CONSTANTS.ANIMATED_FLAP_SPEED * 2)) {
+            sprite = this.capySprite2;
+        } else if (this.capyCounter <= (CONSTANTS.ANIMATED_FLAP_SPEED * 3)) {
+            sprite = this.capySprite3;
+        } else if (this.capyCounter <= (CONSTANTS.ANIMATED_FLAP_SPEED * 4)) {
+            this.capyCounter = 0;
+            sprite = this.capySprite2;
+        }
+        ctx.drawImage(sprite, this.x, this.y);
     }
 
     /*
@@ -53,6 +75,7 @@ export default class Capy {
     moveCapy() {
         this.y += this.vel;
         this.vel += CONSTANTS.GRAVITY;
+        this.capyCounter ++;
         
         /*
         Logic to determine whether or not to reset the velocity to the terminal
