@@ -14,7 +14,6 @@ export default class FlappyCapy {
        this.dimensions = { width: canvas.width, height: canvas.height };
        this.registerEvents();
        this.restart();
-       this.backgroundRunning = false;
     }
     
     /*
@@ -138,6 +137,7 @@ export default class FlappyCapy {
             }
             this.capy.flap();
         });
+        this.backgroundRunning = false;
     }
 
     /*
@@ -153,7 +153,7 @@ export default class FlappyCapy {
     }
 
     screenText() {
-        let loc = { x: this.dimensions.width / 2, y: this.dimensions.height / 2 }
+        let loc = { x: this.dimensions.width / 2, y: this.dimensions.height / 2 };
         this.ctx.font = "50pt serif";
         this.ctx.fillStyle = "white";
         this.ctx.fillText(`Click to start playing Flappy Capybara!`, loc.x, loc.y);
