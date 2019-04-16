@@ -9,7 +9,7 @@
     "webpack-cli": "^3.3.0"
   },
   "scripts": {
-    "start": "main.js"
+    
   },
   "keywords": [],
   "author": "",
