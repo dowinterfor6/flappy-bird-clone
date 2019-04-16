@@ -68,9 +68,47 @@ a {
     transition: color 0.5s;
 }
 
-#capy-game {
-    display: block;
+.nav-bar-right img {
+    width: 90px;
+    height: 68px;
+    transform: scaleX(-1);
+}
+
+.main-content {
+    width: 80%;
     margin-left: auto;
     margin-right: auto;
-    margin-top: 50px;
+    display: flex;
+    justify-content: space-between;
+    margin-top: 5%;
+}
+
+.main-content a {
+    text-decoration: underline;
+}
+
+.main-content aside {
+    width: 80%;
+    height: 100%;
+    margin: 0 5%;
+    line-height: 2em;
+}
+
+.main-content h2 {
+    font-size: 1.5em;
+    padding: 10px 0px;
+    margin: 10px 0px;
+    border-bottom: 1px solid black;
+}
+
+.main-content li {
+    margin-bottom: 1em;
+}
+
+#capy-game {
+    /* display: block; */
+    /* margin-left: auto;
+    margin-right: auto;
+    margin-top: 50px; */
+    cursor: pointer;
 }
