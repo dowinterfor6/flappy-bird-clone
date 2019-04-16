@@ -52,6 +52,7 @@ export default class Capy {
         // ctx.fillRect(this.x, this.y, CONSTANTS.CAPY_WIDTH, CONSTANTS.CAPY_HEIGHT);
 
         // ctx.drawImage(this.capySprite, this.x, this.y);
+        this.capyCounter++;
         let sprite;
         if (this.capyCounter <= (CONSTANTS.ANIMATED_FLAP_SPEED * 1)) {
             sprite = this.capySprite1;
@@ -75,7 +76,7 @@ export default class Capy {
     moveCapy() {
         this.y += this.vel;
         this.vel += CONSTANTS.GRAVITY;
-        this.capyCounter ++;
+        
         
         /*
         Logic to determine whether or not to reset the velocity to the terminal

@@ -22,7 +22,7 @@ export default class FlappyCapy {
     */
     animate() {
         this.level.animate(this.ctx);
-        this.capy.animate(this.ctx);
+        // this.capy.animate(this.ctx);
 
         /* 
         After animating all the instances, #gameOver will be called
@@ -56,10 +56,13 @@ export default class FlappyCapy {
     animateLevelBackground() {
         this.level.drawBackground(this.ctx);
         this.level.animateBackground(this.ctx);
-        if (!this.running) {
-            this.capy.drawCapy(this.ctx);
+        // if (!this.running) { 
+        //     this.capy.drawCapy(this.ctx);
+        // }
+        if (this.running) {
+            this.capy.moveCapy();
         }
-
+        this.capy.drawCapy(this.ctx);
         requestAnimationFrame(this.animateLevelBackground.bind(this));
     }
     /*
