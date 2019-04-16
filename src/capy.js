@@ -4,7 +4,7 @@ const CONSTANTS = {
     CAPY_WIDTH: 45,  // Width of capy hitbox DEFAULT 50
     CAPY_HEIGHT: 33, // Height of capy hitbox DEFAULT 38
     GRAVITY: 0.4,    // 'Acceleration' value representing gravity
-    FLAP_SPEED: 8,   // 'Acceleration' value of a #flap
+    FLAP_SPEED: 7.5,   // 'Acceleration' value of a #flap DEFAULT 8
     TERMINAL_VEL: 12, // Maximum velocity the capy can reach
     ANIMATED_FLAP_SPEED: 5
 };

@@ -9,9 +9,10 @@ export default class FlappyCapy {
     start an event listener for mouse clicks (implement space bar later),
     and start the game loop.
     */
-   constructor(canvas) {
+   constructor(canvas, audioObj) {
        this.ctx = canvas.getContext("2d");
        this.dimensions = { width: canvas.width, height: canvas.height };
+       this.audioObj = audioObj;
        this.registerEvents();
        this.restart();
     }
@@ -22,14 +23,13 @@ export default class FlappyCapy {
     */
     animate() {
         this.level.animate(this.ctx);
-        // this.capy.animate(this.ctx);
-
         /* 
         After animating all the instances, #gameOver will be called
         which will return the user to the starting frame of the game
         via #restart if needed.
         */
         if (this.gameOver()) {
+            // this.audioObj.dead.play(); Why doesn't this play before alert?
             alert(`What a scrub, you only got ${this.score} points`);
             // this.gameOverScreen(); // need to implement 'pause' on game over
             this.restart();
@@ -49,6 +49,8 @@ export default class FlappyCapy {
         call #callback according to standard refresh rate, e.g. 60fps
         */
        if (this.running) {
+           this.audioObj.start.pause();
+           this.audioObj.gameplay.play();
            requestAnimationFrame(this.animate.bind(this));
         }
     }
@@ -56,9 +58,6 @@ export default class FlappyCapy {
     animateLevelBackground() {
         this.level.drawBackground(this.ctx);
         this.level.animateBackground(this.ctx);
-        // if (!this.running) { 
-        //     this.capy.drawCapy(this.ctx);
-        // }
         if (this.running) {
             this.capy.moveCapy();
         }
@@ -70,7 +69,6 @@ export default class FlappyCapy {
     and filling in the strings with interpolated values. 
     */
     drawScore() {
-        // const loc = { x: this.dimensions.width / 4, y: this.dimensions.height / 5 };
         const loc = { x: 10, y: 60 };
         this.ctx.font = "bold 50pt serif";
         this.ctx.fillStyle = "white";
@@ -92,6 +90,10 @@ export default class FlappyCapy {
     resetting the score and calling #animate
     */
     restart() {
+        this.audioObj.gameplay.currentTime = 0;
+        this.audioObj.gameplay.pause();
+        this.audioObj.start.currentTime = 0;
+        this.audioObj.start.play();
         this.running = false;
         this.level = new Level(this.dimensions);
         this.capy = new Capy(this.dimensions);
@@ -151,17 +153,17 @@ export default class FlappyCapy {
         return (this.level.collidesWith(this.capy.bounds()) || this.capy.outOfBounds());
     }
 
-    gameOverScreen() {
-        this.screenText();
-    }
+    // gameOverScreen() {
+    //     this.screenText();
+    // }
 
-    screenText() {
-        let loc = { x: this.dimensions.width / 2, y: this.dimensions.height / 2 };
-        this.ctx.font = "50pt serif";
-        this.ctx.fillStyle = "white";
-        this.ctx.fillText(`Click to start playing Flappy Capybara!`, loc.x, loc.y);
-        // this.ctx.strokeStyle = "black";
-        // this.ctx.lineWidth = 2;
-        // this.ctx.strokeText(`Score: ${this.score}`, loc.x, loc.y);
-    }
+    // screenText() {
+    //     let loc = { x: this.dimensions.width / 2, y: this.dimensions.height / 2 };
+    //     this.ctx.font = "50pt serif";
+    //     this.ctx.fillStyle = "white";
+    //     this.ctx.fillText(`Click to start playing Flappy Capybara!`, loc.x, loc.y);
+    //     // this.ctx.strokeStyle = "black";
+    //     // this.ctx.lineWidth = 2;
+    //     // this.ctx.strokeText(`Score: ${this.score}`, loc.x, loc.y);
+    // }
 }
