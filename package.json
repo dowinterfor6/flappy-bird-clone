@@ -9,8 +9,7 @@
     "webpack-cli": "^3.3.0"
   },
   "scripts": {
-    "start": "webpack -w",
-    "heroku-prebuild": "npm install --dev"
+    "start": "webpack -w"
   },
   "engines": {
     "node": "8.4.0",
