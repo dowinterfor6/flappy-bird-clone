@@ -10,7 +10,7 @@
   },
   "scripts": {
     "start": "webpack -w",
-    "postinstall": "webpack"
+    "heroku-prebuild": "npm install --dev"
   },
   "engines": {
     "node": "8.4.0",
