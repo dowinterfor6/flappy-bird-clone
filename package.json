@@ -9,6 +9,7 @@
   },
   "scripts": {
     "start": "webpack -w",
+    "postinstall": "webpack",
     "heroku-postbuild": "NPM_CONFIG_PRODUCTION=false npm install"
   },
   "engines": {
