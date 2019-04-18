@@ -4,8 +4,8 @@
   "description": "",
   "main": "main.js",
   "dependencies": {
-    "webpack": "^4.30.0",
-    "webpack-cli": "^3.3.0"
+    "webpack": "^4.20.2",
+    "webpack-cli": "^3.1.2"
   },
   "scripts": {
     "start": "webpack -w",
