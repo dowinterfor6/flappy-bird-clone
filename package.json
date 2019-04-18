@@ -9,7 +9,8 @@
     "webpack-cli": "^3.3.0"
   },
   "scripts": {
-    "start": "webpack -w"
+    "start": "webpack -w",
+    "heroku-postbuild": "NPM_CONFIG_PRODUCTION=false npm install"
   },
   "engines": {
     "node": "8.4.0",
