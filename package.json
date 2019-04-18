@@ -9,8 +9,7 @@
     "webpack-cli": "^3.3.0"
   },
   "scripts": {
-    "start": "main.js",
-    "postinstall": "webpack"
+    "start": "webpack -w"
   },
   "engines": {
     "node": "8.4.0",
