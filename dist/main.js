@@ -1,5 +1,3 @@
-const PORT = process.env.PORT || 3000;
-app.listen(PORT);
 /******/ (function(modules) { // webpackBootstrap
 /******/ 	// The module cache
 /******/ 	var installedModules = {};
